@@ -25,7 +25,7 @@ parser.add_argument('--frame-skip', default=1, type=int, help='number of frames 
 parser.add_argument('--seed', default=1, type=int, help='seed')
 args = parser.parse_args()
 
-# Definición del environment
+# Definicion del environment
 if args.env_name and args.env_name.find('Duckietown') != -1:
     env = DuckietownEnv(
         seed = args.seed,
@@ -45,50 +45,51 @@ env.reset()
 
 while True:
 
-    # Captura la tecla que está siendo apretada y almacena su valor en key
+    # Captura la tecla que esta siendo apretada y almacena su valor en key
     key = cv2.waitKey(30)
 
     # Si la tecla es Esc, se sale del loop y termina el programa
     if key == 27:
         break
 
-    # La acción de Duckiebot consiste en dos valores:
+    # La accion de Duckiebot consiste en dos valores:
     # velocidad lineal y velocidad de giro
-    # En este caso, ambas velocidades son 0 (acción por defecto)
+    # En este caso, ambas velocidades son 0 (accion por defecto)
     action = np.array([0.0, 0.0])
 
-    # Definir acción en base a la tecla apretada
+    # Definir accion en base a la tecla apretada
 
     # Esto es avanzar recto hacia adelante al apretar la tecla w
     if key == ord('w'):
         action = np.array([0.44, 0.0])
+    #Esto es para atras
     if key == ord('s'):
         action = np.array([-0.44, 0.0])
+    #Esto es a la izquierda
     if key == ord ('a'):
         action = np.array([0.35, +1])
+    #Esto es a la derecha
     if key == ord('d'):
         action = np.array([0.35, -1])
+    #Esto es giro, si se deja apretado
     if key == ord('r'):
-        action = np.array([-1, -1])
+        action = np.array([0.0, 1])
+    #Esto es el turbo
     if key == ord('t'):
         action = np.array([1, 0.0])
         
-    ### AGREGAR MÁS COMPORTAMIENTOS ###
-
-
-
-    # Se ejecuta la acción definida anteriormente y se retorna la observación (obs),
-    # la evaluación (reward), etc
+    # Se ejecuta la accion definida anteriormente y se retorna la observaciï¿½n (obs),
+    # la evaluacion (reward), etc
     obs, reward, done, info = env.step(action)
     # obs consiste en un imagen de 640 x 480 x 3
 
-    # done significa que el Duckiebot chocó con un objeto o se salió del camino
+    # done significa que el Duckiebot choca con un objeto o se salio del camino
     if done:
         print('done!')
         # En ese caso se reinicia el simulador
         env.reset()
 
-    # Se muestra en una ventana llamada "patos" la observación del simulador
+    # Se muestra en una ventana llamada "patos" la observacion del simulador
     cv2.imshow("patos", cv2.cvtColor(obs, cv2.COLOR_RGB2BGR))
 
 
