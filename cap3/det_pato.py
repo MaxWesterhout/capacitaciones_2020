@@ -60,8 +60,8 @@ if __name__ == '__main__':
 
     # Parametros para el detector de patos
     # Se debe encontrar el rango apropiado
-    lower_yellow = np.array([20, 210, 160])  #20 220 160
-    upper_yellow = np.array([27, 255, 255])  #   60 250  255
+    lower_yellow = np.array([20, 210, 160])  #20 210 160
+    upper_yellow = np.array([60, 255, 255])  #60 255  255
     min_area = 2500
 
     while True:
@@ -100,13 +100,13 @@ if __name__ == '__main__':
         
         # Aplicar operaciones morfológicas para eliminar ruido
         # Esto corresponde a hacer un Opening
-        opening = cv2.morphologyEx(img_out, cv2.MORPH_OPEN, kernel)
         # https://docs.opencv.org/trunk/d9/d61/tutorial_py_morphological_ops.html
         #Operacion morfologica erode
-        img_out = cv2.erode(img_out, kernel, iterations = 2) 
+        img_out = cv2.erode(img_out, kernel, iterations = 1) 
         #Operacion morfologica dilate
-        img_out = cv2.dilate(img_out, kernel, iterations = 2)
-        
+        img_out = cv2.dilate(img_out, kernel, iterations =1)
+        opening = cv2.morphologyEx(img_out, cv2.MORPH_OPEN, kernel)
+
         # Busca contornos de blobs
         # https://docs.opencv.org/trunk/d3/d05/tutorial_py_table_of_contents_contours.html
         contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
